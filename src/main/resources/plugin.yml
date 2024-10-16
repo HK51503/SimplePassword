@@ -1,0 +1,10 @@
+name: SimplePassword
+version: '1.0-SNAPSHOT'
+main: io.github.hk51503.SimplePassword
+api-version: '1.21'
+commands:
+  command:
+    description: "Enter password"
+    usage: "/password [PASSWORD]"
+    aliases:
+      - password
