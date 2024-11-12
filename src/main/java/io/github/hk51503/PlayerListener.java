@@ -10,6 +10,8 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.Bukkit;
 
 public class PlayerListener implements Listener {
     private final SimplePassword plugin;
@@ -32,6 +34,20 @@ public class PlayerListener implements Listener {
             player.setInvisible(true); // Prevent visibility
             // Apply blindness effect
             player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, Integer.MAX_VALUE, 1, false, false));
+        }
+    }
+
+    @EventHandler
+    public void onRespawn(PlayerRespawnEvent event) {
+        Player player = event.getPlayer();
+        if (!plugin.getAuthenticatedPlayers().contains(player.getName())) {
+            // Apply blindness effect
+            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+            public void run() {
+                // The stuff which should be accomplished after the timer runs out goes here.
+                player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, Integer.MAX_VALUE, 1, false, false));
+            }
+            }, 1);
         }
     }
 
